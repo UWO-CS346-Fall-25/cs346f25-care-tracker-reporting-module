@@ -1,6 +1,6 @@
 /**
  * Main Stylesheet
- * 
+ *
  * This file contains the base styles for the application.
  * Organize your styles logically:
  * 1. CSS Variables
@@ -13,12 +13,12 @@
 
 /* CSS Variables */
 :root {
-  --primary-color: #007bff;
+  --primary-color: #ffee00;
   --secondary-color: #6c757d;
   --success-color: #28a745;
   --danger-color: #dc3545;
   --warning-color: #ffc107;
-  --info-color: #17a2b8;
+  --info-color: #b88517;
   --light-color: #f8f9fa;
   --dark-color: #343a40;
   --font-family:
@@ -43,7 +43,7 @@ body {
 }
 
 a {
-  color: var(--primary-color);
+  color: black;
   text-decoration: none;
 }
 
@@ -60,8 +60,8 @@ a:hover {
 
 /* Header & Navigation */
 header {
-  background-color: var(--dark-color);
-  color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  color: black;
   padding: 1rem 0;
   box-shadow: var(--box-shadow);
 }
@@ -75,7 +75,7 @@ nav .container {
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 .logo:hover {
@@ -90,7 +90,7 @@ nav .container {
 }
 
 .nav-links a {
-  color: white;
+  color: black;
 }
 
 .nav-links button {
@@ -121,8 +121,9 @@ main {
   text-align: center;
   padding: 3rem 0;
   background: linear-gradient(135deg, var(--primary-color), var(--info-color));
-  color: white;
+  color: black;
   border-radius: var(--border-radius);
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 

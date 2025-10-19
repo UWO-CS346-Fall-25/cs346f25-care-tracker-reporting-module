@@ -19,10 +19,10 @@ const express = require('express');
 const router = express.Router();
 
 // Import controllers
-// const indexController = require('../controllers/indexController');
+const indexController = require('../controllers/indexController');
 
 // Define routes
-// router.get('/', indexController.getHome);
+router.get('/', indexController.getHome);
 
 // dummy comment
 

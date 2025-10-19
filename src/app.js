@@ -81,6 +81,62 @@ app.get('/', csrfProtection, (req, res) => {
   });
 });
 
+// About Route
+app.get('/about', csrfProtection, (req, res) => {
+  res.render('about', {
+    title: 'About',
+    csrfToken: req.csrfToken(),
+  });
+});
+
+// AccreditationReport Route
+app.get('/accreditationReport', csrfProtection, (req, res) => {
+  res.render('accreditationReport', {
+    title: 'About',
+    csrfToken: req.csrfToken(),
+  });
+});
+
+// StudentReport Route
+app.get('/studentReport', csrfProtection, (req, res) => {
+  res.render('studentReport', {
+    title: 'Student Report',
+    csrfToken: req.csrfToken(),
+  });
+});
+
+// Students Route
+app.get('/students', csrfProtection, (req, res) => {
+  res.render('students', {
+    title: 'Students',
+    csrfToken: req.csrfToken(),
+  });
+});
+
+// ClassReport Route
+app.get('/classes', csrfProtection, (req, res) => {
+  res.render('classes', {
+    title: 'Classes',
+    csrfToken: req.csrfToken(),
+  });
+});
+
+// ClassReport Route
+app.get('/classReport', csrfProtection, (req, res) => {
+  res.render('classReport', {
+    title: 'Class Report',
+    csrfToken: req.csrfToken(),
+  });
+});
+
+// CareTrackerConfig Route
+app.get('/careTrackerConfig', csrfProtection, (req, res) => {
+  res.render('careTrackerConfig', {
+    title: 'CareTrackerConfig',
+    csrfToken: req.csrfToken(),
+  });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).render('error', {
@@ -91,7 +147,7 @@ app.use((req, res) => {
 });
 
 // Error handler
-// eslint-disable-next-line no-unused-vars
+
 app.use((err, req, res, _next) => {
   // Log error in development
   if (process.env.NODE_ENV === 'development') {
