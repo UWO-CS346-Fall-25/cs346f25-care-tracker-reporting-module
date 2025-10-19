@@ -41,7 +41,7 @@
 - [ ] Client-side JS / CSS
 - [ ] Database (Migrations / Seeds)
 - [ ] Documentation (README / Docs)
-- [ ] Other: ****\*\*****\_\_\_****\*\*****
+- [ ] Other: \***\*\*\*\*\***\_\_\_\***\*\*\*\*\***
 
 ---
 
