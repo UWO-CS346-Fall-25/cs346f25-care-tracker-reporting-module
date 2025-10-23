@@ -137,6 +137,13 @@ app.get('/careTrackerConfig', csrfProtection, (req, res) => {
   });
 });
 
+app.post('/hello', (req, res) => {
+  res.send(
+    `<h1>Hello Express app!</h1>Here is your posted data:` +
+      `<ul><li>${req.body.name}</li><li>${req.body.age}</li></ul>`
+  );
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).render('error', {
