@@ -121,6 +121,45 @@ function initInteractiveElements() {
 }
 
 /**
+ * Initialize interactive elements with event listeners
+ */
+function initInteractiveElements() {
+  console.log('Initializing interactive elements');
+
+  const statusButton = document.getElementById('check-status-btn');
+  const statusMessage = document.getElementById('status-message');
+
+  //Event Listener, fetch(), and DOM manipulation
+  if (statusButton && statusMessage) {
+    statusButton.addEventListener('click', async () => {
+      statusMessage.textContent = 'Checking server... please wait.';
+      statusButton.disabled = true;
+
+      try {
+        // Use the existing makeRequest utility for the AJAX call
+        // This calls the new Express route: GET /api/status
+        const data = await makeRequest('/api/status'); 
+
+        // Dynamically update DOM content with the response
+        statusMessage.innerHTML = `
+          **Status:** <span style="color: green;">${data.status}</span><br>
+          **Message:** ${data.message}<br>
+          **Checked At:** ${new Date(data.timestamp).toLocaleTimeString()}
+        `;
+        showNotification(`Server check complete: ${data.status}`, 'success');
+
+      } catch (error) {
+        console.error('Fetch error:', error);
+        statusMessage.textContent = 'Failed to retrieve server status.';
+        showNotification('Failed to retrieve server status.', 'error');
+      } finally {
+        statusButton.disabled = false;
+      }
+    });
+  }
+}
+
+/**
  * Make an AJAX request
  * @param {string} url - Request URL
  * @param {object} options - Request options (method, headers, body, etc.)

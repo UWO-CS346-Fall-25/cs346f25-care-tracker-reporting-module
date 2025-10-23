@@ -73,69 +73,17 @@ app.use((req, res, next) => {
 // const indexRouter = require('./routes/index');
 // app.use('/', indexRouter);
 
-// Placeholder home route
-app.get('/', csrfProtection, (req, res) => {
-  res.render('index', {
-    title: 'Home',
-    csrfToken: req.csrfToken(),
-  });
-});
+const indexController = require('../src/controllers/indexController');
 
-// About Route
-app.get('/about', csrfProtection, (req, res) => {
-  res.render('about', {
-    title: 'About',
-    csrfToken: req.csrfToken(),
-  });
-});
+// Define all routes that use indexControlle
 
-// AccreditationReport Route
-app.get('/accreditationReport', csrfProtection, (req, res) => {
-  res.render('accreditationReport', {
-    title: 'About',
-    csrfToken: req.csrfToken(),
-  });
-});
+// NEW: Import Route files
+const indexRouter = require('./routes/index'); // Your existing index routes
 
-// StudentReport Route
-app.get('/studentReport', csrfProtection, (req, res) => {
-  res.render('studentReport', {
-    title: 'Student Report',
-    csrfToken: req.csrfToken(),
-  });
-});
+// ... existing middleware app.use(res.locals.middleware) ...
 
-// Students Route
-app.get('/students', csrfProtection, (req, res) => {
-  res.render('students', {
-    title: 'Students',
-    csrfToken: req.csrfToken(),
-  });
-});
-
-// ClassReport Route
-app.get('/classes', csrfProtection, (req, res) => {
-  res.render('classes', {
-    title: 'Classes',
-    csrfToken: req.csrfToken(),
-  });
-});
-
-// ClassReport Route
-app.get('/classReport', csrfProtection, (req, res) => {
-  res.render('classReport', {
-    title: 'Class Report',
-    csrfToken: req.csrfToken(),
-  });
-});
-
-// CareTrackerConfig Route
-app.get('/careTrackerConfig', csrfProtection, (req, res) => {
-  res.render('careTrackerConfig', {
-    title: 'CareTrackerConfig',
-    csrfToken: req.csrfToken(),
-  });
-});
+// Routes (Replace the old app.get block with these two lines)
+app.use('/', csrfProtection, indexRouter);
 
 // 404 handler
 app.use((req, res) => {
