@@ -15,32 +15,27 @@
 // const SomeModel = require('../models/SomeModel');
 
 /**
- * GET /
- * Display the home page
+ * GET /about
+ * Display the about page
  */
-exports.getHome = async (req, res, next) => {
+exports.getStudents = async (req, res, next) => {
   try {
-    // Fetch any data needed for the home page
-    // const data = await SomeModel.findAll();
-
-    res.render('index', {
-      title: 'Home',
-      // data: data,
+    res.render('students', {
+      title: 'Students',
       //csrfToken: req.csrfToken(),
     });
   } catch (error) {
     next(error);
   }
 };
-
 /**
  * GET /about
  * Display the about page
  */
-exports.getAbout = async (req, res, next) => {
+exports.getStudentByName = async (req, res, next) => {
   try {
-    res.render('about', {
-      title: 'About',
+    res.render('studentReport', {
+      title: 'StudentByName',
       //csrfToken: req.csrfToken(),
     });
   } catch (error) {
