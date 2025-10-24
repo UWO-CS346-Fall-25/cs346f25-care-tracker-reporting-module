@@ -47,16 +47,24 @@
             <th>Instructor</th>
           </tr>
         </thead>
-        <tbody>
-          <% courses.forEach(course => { %>
-            <tr>
-              <td><%= course.id %></td>
-              <td><%= course.name %></td>
-              <td><%= course.seats %></td>
-              <td><%= course.instructor %></td>
-            </tr>
-          <% }) %>
-        </tbody>
+          <tbody>
+            <% if (courses && courses.length > 0) { %>
+              <% courses.forEach(course => { %>
+                <tr>
+                  
+                  <td><a href="/classReport?id=<%= course.id %>" class="course-link" style="font-weight: bold;"><%= course.id %></a></td>
+                  
+                  <td><%= course.name %></td> 
+                  <td><%= course.instructor %></td>
+                  <td><%= course.seats %></td>
+                </tr>
+              <% }); %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No course data available.</td>
+              </tr>
+            <% } %>
+          </tbody>
       </table>
     <% } else { %>
       <p>No courses are currently available.</p>
