@@ -79,6 +79,9 @@ app.use('/about', aboutRouter);
 const studentsRouter = require('./routes/students');
 app.use('/students', studentsRouter);
 
+const studentReportRouter = require('./routes/studentReport');
+app.use('/studentReport', studentReportRouter);
+
 // Placeholder home route
 //app.get('/', csrfProtection, (req, res) => {
 //  res.render('index', {
@@ -104,12 +107,12 @@ app.get('/accreditationReport', csrfProtection, (req, res) => {
 });
 
 // StudentReport Route
-app.get('/studentReport', csrfProtection, (req, res) => {
-  res.render('studentReport', {
-    title: 'Student Report',
-    csrfToken: req.csrfToken(),
-  });
-});
+//app.get('/studentReport', csrfProtection, (req, res) => {
+//  res.render('studentReport', {
+//    title: 'Student Report',
+//    csrfToken: req.csrfToken(),
+//  });
+//});
 
 // Students Route
 //app.get('/students', csrfProtection, (req, res) => {

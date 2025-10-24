@@ -33,9 +33,31 @@
 
   <main class="container">
 
-    <section class="features">
-      <h1>Class Report</h1>
-      <p>This page will include an exportable report of records grouped by class. </p>
+    <section class="report-details">
+
+      <h1>Report for <%= course.name %> (<%= course.id %>)</h1>
+
+      <p class="lead"><%= course.description %></p>
+
+      <div class="card p-4 mb-4">
+          <h3>Course Details</h3>
+          <p><strong>Instructor:</strong> <%= course.instructor %></p>
+          <p><strong>Seats Available:</strong> <%= course.seats %></p>
+      </div>
+
+      <h2>Student Roster</h2>
+      <% if (course.students && course.students.length > 0) { %>
+        <ul class="list-group">
+          <% course.students.forEach(student => { %>
+            <li class="list-group-item"><%= student %></li>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <p>No students currently enrolled in this class.</p>
+      <% } %>
+
+      <a href="/classes" class="btn btn-secondary mt-4">← Back to Class List</a>
+
     </section>
 
   </main>

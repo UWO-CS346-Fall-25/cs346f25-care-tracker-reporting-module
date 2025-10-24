@@ -18,10 +18,12 @@
  * GET /about
  * Display the about page
  */
-exports.getStudents = async (req, res, next) => {
+exports.getStudentByName = async (req, res, next) => {
   try {
-    res.render('students', {
-      title: 'Students',
+    const studentName = req.params.name;
+    res.render('studentReport', {
+      title: 'StudentByName',
+      student_name: studentName,
       //csrfToken: req.csrfToken(),
     });
   } catch (error) {
