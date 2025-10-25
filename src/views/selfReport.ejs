@@ -33,46 +33,12 @@
 
   <main class="container">
 
-    <section class="report-details">
-
-      <h1>Report for <%= course.name %> (<%= course.id %>)</h1>
-
-      <p class="lead"><%= course.description %></p>
-
-      <div class="card p-4 mb-4">
-          <h3>Course Details</h3>
-      </div>
-
-      <h2>Student Roster</h2>
-      <% if (course.students && course.students.length > 0) { %>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
-            <tbody>
-              <% if (course.students && course.students.length > 0) { %>
-                <% course.students.forEach(student => { %>
-                  <tr>
-                    <td><a href="/students/classStudentReport/<%= student %>/<%= class_id %>" class="student-report" style="font-weight: bold;"><%= student %></a></td>
-                  </tr>
-                <% }); %>
-              <% } else { %>
-                <tr>
-                  <td >No student data available.</td>
-                </tr>
-              <% } %>
-            </tbody>
-        </table>
-      <% } else { %>
-        <p>No students currently enrolled in this class.</p>
-      <% } %>
-
-      <a href="/classes" class="features">← Back to Class List</a>
-
+    <section class="features">
+      <h1>Student Report</h1>
+      <p>This page will include an exportable report of records filtered for the currently logged in student. </p>
     </section>
 
+    <a href="/" class="features">← Back to Home</a>
   </main>
 
   <footer>

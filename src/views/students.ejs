@@ -34,16 +34,40 @@
   <main class="container">
 
     <section class="features">
-      <h2>Features</h2>
-      <div class="feature-grid">
-        <a href="/studentReport/Ander" class="feature">
-          <div>
-            <h3>Student Report</h3>
-            <p>This will be a list of students to pick from.</p>
-          </div>
-        </a>
-      </div>
-    </section>
+
+    <h2>Students</h2>
+
+      <% if (students && students.length > 0) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+            <tbody>
+              <% if (students && students.length > 0) { %>
+                <% students.forEach(student => { %>
+                  <tr>
+                    <td><a href="/students/studentReport/<%= student.name %>" class="student-report" style="font-weight: bold;"><%= student.name %></a></td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td >No student data available.</td>
+                </tr>
+              <% } %>
+            </tbody>
+        </table>
+      <% } else { %>
+        <p>No students are currently available.</p>
+      <% } %>
+      <hr>
+
+
+    <form method="POST" action="/students/addStudent">
+      <label>Name? <input type="text" name="name"></label>
+      <input type="submit" value="Add Student">
+    </form>
 
   </main>
 

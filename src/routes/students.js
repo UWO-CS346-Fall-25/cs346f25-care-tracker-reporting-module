@@ -24,6 +24,15 @@ const studentsController = require('../controllers/studentsController');
 // Define routes
 router.get('/', studentsController.getStudents);
 
+router.get('/studentReport/:name', studentsController.getStudentByName);
+router.get(
+  '/classStudentReport/:name/:class_id',
+  studentsController.getClassStudentByName
+);
+router.get('/selfReport', studentsController.getSelfReport);
+
+router.post('/addStudent', studentsController.addStudent);
+
 // dummy comment
 
 module.exports = router;

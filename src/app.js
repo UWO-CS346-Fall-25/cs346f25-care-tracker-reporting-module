@@ -79,61 +79,13 @@ app.use('/about', aboutRouter);
 const studentsRouter = require('./routes/students');
 app.use('/students', studentsRouter);
 
-const studentReportRouter = require('./routes/studentReport');
-app.use('/studentReport', studentReportRouter);
-
-// Placeholder home route
-//app.get('/', csrfProtection, (req, res) => {
-//  res.render('index', {
-//    title: 'Home',
-//    csrfToken: req.csrfToken(),
-//  });
-//});
-
-// About Route
-//app.get('/about', csrfProtection, (req, res) => {
-//  res.render('about', {
-//    title: 'About',
-//    csrfToken: req.csrfToken(),
-//  });
-//});
+const classesRouter = require('./routes/classes');
+app.use('/classes', classesRouter);
 
 // AccreditationReport Route
 app.get('/accreditationReport', csrfProtection, (req, res) => {
   res.render('accreditationReport', {
     title: 'About',
-    csrfToken: req.csrfToken(),
-  });
-});
-
-// StudentReport Route
-//app.get('/studentReport', csrfProtection, (req, res) => {
-//  res.render('studentReport', {
-//    title: 'Student Report',
-//    csrfToken: req.csrfToken(),
-//  });
-//});
-
-// Students Route
-//app.get('/students', csrfProtection, (req, res) => {
-//  res.render('students', {
-//    title: 'Students',
-//    csrfToken: req.csrfToken(),
-//  });
-//});
-
-// ClassReport Route
-app.get('/classes', csrfProtection, (req, res) => {
-  res.render('classes', {
-    title: 'Classes',
-    csrfToken: req.csrfToken(),
-  });
-});
-
-// ClassReport Route
-app.get('/classReport', csrfProtection, (req, res) => {
-  res.render('classReport', {
-    title: 'Class Report',
     csrfToken: req.csrfToken(),
   });
 });

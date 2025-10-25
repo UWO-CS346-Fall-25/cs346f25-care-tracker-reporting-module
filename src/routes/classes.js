@@ -19,11 +19,14 @@ const express = require('express');
 const router = express.Router();
 
 // Import controllers
-const studentReportController = require('../controllers/studentReportController');
+const classesController = require('../controllers/classesController');
 
 // Define routes
+router.get('/', classesController.getClasses);
 
-router.get('/:name', studentReportController.getStudentByName);
+router.get('/class_report/:id', classesController.getClassById);
+
+router.post('/add_class', classesController.addClass);
 
 // dummy comment
 

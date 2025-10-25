@@ -24,12 +24,6 @@ const aboutController = require('../controllers/aboutController');
 // Define routes
 router.get('/', aboutController.getAbout);
 
-router.post('/hello', (req, res) => {
-  res.send(
-    `<h1>Hello Express app!</h1>Here is your posted data:` +
-      `<ul><li>${req.body.name}</li><li>${req.body.age}</li></ul>`
-  );
-});
 // dummy comment
 
 module.exports = router;

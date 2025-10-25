@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
+  <header>
     <nav>
       <div class="container">
         <a href="/" class="logo">Titan Care Tracker</a>
@@ -32,49 +32,45 @@
   </header>
 
   <main class="container">
-    <h1><%= title %></h1>
-    <p>Data last updated: <%= lastUpdated %></p>
 
-    <h2>Available Courses</h2>
+    <section class="features">
 
-    <% if (courses && courses.length > 0) { %>
-      <table>
-        <thead>
-          <tr>
-            <th>Course ID</th>
-            <th>Name</th>
-            <th>Seats</th>
-            <th>Instructor</th>
-          </tr>
-        </thead>
-          <tbody>
-            <% if (courses && courses.length > 0) { %>
-              <% courses.forEach(course => { %>
+    <h2>Courses</h2>
+
+      <% if (courses && courses.length > 0) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+            <tbody>
+              <% if (courses && courses.length > 0) { %>
+                <% courses.forEach(course => { %>
+                  <tr>
+                    <td><a href="/classes/class_report/<%= course.id %>" class="course-report" style="font-weight: bold;"><%= course.id %></a></td>
+                    <td><a href="/classes/class_report/<%= course.id %>" class="course-report" style="font-weight: bold;"><%= course.name %></a></td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
                 <tr>
-
-                  <td><a href="/classReport?id=<%= course.id %>" class="course-link" style="font-weight: bold;"><%= course.id %></a></td>
-
-                  <td><%= course.name %></td>
-                  <td><%= course.instructor %></td>
-                  <td><%= course.seats %></td>
+                  <td >No student data available.</td>
                 </tr>
-              <% }); %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No course data available.</td>
-              </tr>
-            <% } %>
-          </tbody>
-      </table>
-    <% } else { %>
-      <p>No courses are currently available.</p>
-    <% } %>
+              <% } %>
+            </tbody>
+        </table>
+      <% } else { %>
+        <p>No courses are currently available.</p>
+      <% } %>
+      <hr>
 
-    <hr>
 
-    <h2>Interactive Server Status Check</h2>
-    <p id="status-message">Server status not yet checked.</p>
-    <button id="check-status-btn">Check Server Status via Fetch</button>
+    <form method="POST" action="/classes/add_class">
+      <label>Course ID? <input type="text" name="id"></label>
+      <label>Name? <input type="text" name="name"></label>
+      <input type="submit" value="Add Course">
+    </form>
 
   </main>
 
