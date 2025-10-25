@@ -45,12 +45,13 @@
 
       <h2>Student Roster</h2>
       <% if (course.students && course.students.length > 0) { %>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
+        <div class="table-scroll">
+          <table class="table_shared">
+            <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+            </thead>
             <tbody>
               <% if (course.students && course.students.length > 0) { %>
                 <% course.students.forEach(student => { %>
@@ -64,7 +65,8 @@
                 </tr>
               <% } %>
             </tbody>
-        </table>
+          </table>
+        </div>
       <% } else { %>
         <p>No students currently enrolled in this class.</p>
       <% } %>

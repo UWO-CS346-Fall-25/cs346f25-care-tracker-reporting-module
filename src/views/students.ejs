@@ -38,12 +38,13 @@
     <h2>Students</h2>
 
       <% if (students && students.length > 0) { %>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
+        <div class="table-scroll">
+          <table class="table_shared">
+            <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+            </thead>
             <tbody>
               <% if (students && students.length > 0) { %>
                 <% students.forEach(student => { %>
@@ -57,7 +58,8 @@
                 </tr>
               <% } %>
             </tbody>
-        </table>
+          </table>
+        </div>
       <% } else { %>
         <p>No students are currently available.</p>
       <% } %>
@@ -66,7 +68,7 @@
 
     <form method="POST" action="/students/addStudent">
       <label>Name? <input type="text" name="name"></label>
-      <input type="submit" value="Add Student">
+      <input type="submit" value="Add Student"> <p>Placeholder data entry pending database connection.</p>
     </form>
 
   </main>

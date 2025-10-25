@@ -38,13 +38,14 @@
     <h2>Courses</h2>
 
       <% if (courses && courses.length > 0) { %>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-            </tr>
-          </thead>
+        <div class="table-scroll">
+          <table class="table_shared">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+              </tr>
+            </thead>
             <tbody>
               <% if (courses && courses.length > 0) { %>
                 <% courses.forEach(course => { %>
@@ -59,7 +60,8 @@
                 </tr>
               <% } %>
             </tbody>
-        </table>
+          </table>
+        </div>
       <% } else { %>
         <p>No courses are currently available.</p>
       <% } %>
@@ -69,7 +71,7 @@
     <form method="POST" action="/classes/add_class">
       <label>Course ID? <input type="text" name="id"></label>
       <label>Name? <input type="text" name="name"></label>
-      <input type="submit" value="Add Course">
+      <input type="submit" value="Add Course"><p>Placeholder data entry pending database connection.</p>
     </form>
 
   </main>
