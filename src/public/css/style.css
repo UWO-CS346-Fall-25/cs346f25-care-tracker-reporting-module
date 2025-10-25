@@ -288,3 +288,128 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Responsive wrapper */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table baseline */
+.table_shared {
+  width: 100%;
+  border-collapse: separate; /* keeps border-radius and spacing options */
+  border-spacing: 0;
+  table-layout: fixed; /* predictable column widths + truncation */
+}
+
+/* Header + cells */
+.table_shared thead th,
+.table_shared tbody td {
+  padding: 12px 16px;
+  line-height: 1.4;
+  text-align: left; /* default alignment */
+  vertical-align: middle;
+  white-space: nowrap; /* prevents ragged rows; use .wrap to override */
+  overflow: hidden; /* enables ellipsis with .truncate */
+  text-overflow: ellipsis;
+}
+
+/* Sticky header without changing colors */
+.table_shared thead th {
+  /* position: sticky;
+  top: 0;
+  z-index: 1; */
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  font-weight: 700;
+}
+
+/* Optional subtle row separation (inherits existing color palette) */
+/* .table_shared tbody td {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+} */
+.table_shared tbody tr:last-child td {
+  border-bottom-width: 0;
+}
+
+/* Density modifiers */
+.table_shared.is-compact thead th,
+.table_shared.is-compact tbody td {
+  padding: 8px 12px;
+}
+.table_shared.is-comfortable thead th,
+.table_shared.is-comfortable tbody td {
+  padding: 14px 18px;
+}
+
+/* Alignment helpers */
+.table_shared .align-left {
+  text-align: left;
+}
+.table_shared .align-center {
+  text-align: center;
+}
+.table_shared .align-right {
+  text-align: right;
+}
+
+/* Numeric alignment with tabular numerals */
+.table_shared .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Wrapping / truncation utilities */
+.table_shared .wrap {
+  white-space: normal;
+}
+.table_shared .nowrap {
+  white-space: nowrap;
+}
+.table_shared .truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Fixed/relative column widths */
+.table_shared .w-xxs {
+  width: 64px;
+}
+.table_shared .w-xs {
+  width: 96px;
+}
+.table_shared .w-sm {
+  width: 144px;
+}
+.table_shared .w-md {
+  width: 224px;
+}
+.table_shared .w-lg {
+  width: 320px;
+}
+
+/* Accessible focus for links inside cells (inherits your focus color) */
+.table_shared a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.table-scroll {
+  max-height: 60vh; /* or a fixed height like 320px */
+  overflow-y: auto; /* vertical scrolling */
+  overflow-x: hidden; /* optional */
+  display: block; /* ensure the box can clip/scroll */
+}
+
+/* Optional: add a little visual polish */
+.table-scroll::-webkit-scrollbar {
+  height: 8px; /* thinner scrollbar */
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}

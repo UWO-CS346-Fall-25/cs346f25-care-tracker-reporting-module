@@ -15,25 +15,6 @@
 // const SomeModel = require('../models/SomeModel');
 
 /**
- * GET /
- * Display the home page
- */
-exports.getHome = async (req, res, next) => {
-  try {
-    // Fetch any data needed for the home page
-    // const data = await SomeModel.findAll();
-
-    res.render('index', {
-      title: 'Home',
-      // data: data,
-      //csrfToken: req.csrfToken(),
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
  * GET /about
  * Display the about page
  */

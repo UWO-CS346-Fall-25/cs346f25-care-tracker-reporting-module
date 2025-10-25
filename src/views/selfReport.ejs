@@ -34,43 +34,11 @@
   <main class="container">
 
     <section class="features">
+      <h1>Student Report</h1>
+      <p>This page will include an exportable report of records filtered for the currently logged in student. </p>
+    </section>
 
-    <h2>Students</h2>
-
-      <% if (students && students.length > 0) { %>
-        <div class="table-scroll">
-          <table class="table_shared">
-            <thead>
-              <tr>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if (students && students.length > 0) { %>
-                <% students.forEach(student => { %>
-                  <tr>
-                    <td><a href="/students/studentReport/<%= student.name %>" class="student-report" style="font-weight: bold;"><%= student.name %></a></td>
-                  </tr>
-                <% }); %>
-              <% } else { %>
-                <tr>
-                  <td >No student data available.</td>
-                </tr>
-              <% } %>
-            </tbody>
-          </table>
-        </div>
-      <% } else { %>
-        <p>No students are currently available.</p>
-      <% } %>
-      <hr>
-
-
-    <form method="POST" action="/students/addStudent">
-      <label>Name? <input type="text" name="name"></label>
-      <input type="submit" value="Add Student"> <p>Placeholder data entry pending database connection.</p>
-    </form>
-
+    <a href="/" class="features">← Back to Home</a>
   </main>
 
   <footer>
