@@ -82,18 +82,13 @@ app.use('/students', studentsRouter);
 const classesRouter = require('./routes/classes');
 app.use('/classes', classesRouter);
 
+const careTrackerConfigRouter = require('./routes/careTrackerConfig');
+app.use('/careTrackerConfig', careTrackerConfigRouter);
+
 // AccreditationReport Route
 app.get('/accreditationReport', csrfProtection, (req, res) => {
   res.render('accreditationReport', {
     title: 'About',
-    csrfToken: req.csrfToken(),
-  });
-});
-
-// CareTrackerConfig Route
-app.get('/careTrackerConfig', csrfProtection, (req, res) => {
-  res.render('careTrackerConfig', {
-    title: 'CareTrackerConfig',
     csrfToken: req.csrfToken(),
   });
 });

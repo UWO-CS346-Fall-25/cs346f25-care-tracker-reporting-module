@@ -35,7 +35,27 @@
 
     <section class="features">
       <h1>Student Report</h1>
-      <p>This page will include an exportable report of records filtered for the currently logged in student. </p>
+      <p><%= student_name %></p>
+        <% let counter = 1; %>
+        <% competencies.forEach(domain => { %>
+          <div class="domain">
+            <h2><%= domain.domain %></h2>
+            <% domain.competencies.forEach(item => { %>
+              <div class="competency">
+                <input
+                  type="checkbox"
+                  id="comp<%= counter %>"
+                  <%= item.complete ? 'checked' : '' %>
+                  disabled
+                >
+                <label for="comp<%= counter %>">
+                  <%= counter %>. <%= item.text %>
+                </label>
+              </div>
+              <% counter++; %>
+            <% }) %>
+          </div>
+        <% }) %>
     </section>
 
     <a href="/" class="features">← Back to Home</a>

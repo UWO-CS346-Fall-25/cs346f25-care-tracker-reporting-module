@@ -159,6 +159,21 @@ main {
   background-color: var(--light-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* On hover, the feature slightly enlarges and lifts */
+.feature:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Optional: slight focus effect for keyboard accessibility */
+.feature:focus-within {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .feature h3 {
@@ -289,6 +304,23 @@ footer {
   }
 }
 
+.domain {
+  background: #e8eef5;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.competency {
+  display: flex;
+  align-items: flex-start;
+  padding: 4px 0;
+}
+.competency label {
+  flex: 1;
+  margin-left: 8px;
+}
+
 /* Responsive wrapper */
 .table-wrap {
   overflow-x: auto;
@@ -325,11 +357,6 @@ footer {
   font-weight: 700;
 }
 
-/* Optional subtle row separation (inherits existing color palette) */
-/* .table_shared tbody td {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-} */
 .table_shared tbody tr:last-child td {
   border-bottom-width: 0;
 }
@@ -404,7 +431,6 @@ footer {
   display: block; /* ensure the box can clip/scroll */
 }
 
-/* Optional: add a little visual polish */
 .table-scroll::-webkit-scrollbar {
   height: 8px; /* thinner scrollbar */
 }
@@ -412,4 +438,86 @@ footer {
 .table-scroll::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+}
+
+/* Scope to your shared table only */
+.table_shared th.asc::after {
+  content: ' ▲';
+  font-size: 0.8em;
+}
+
+.table_shared th.desc::after {
+  content: ' ▼';
+  font-size: 0.8em;
+}
+
+/* Floating right-side form panel */
+.code-form-panel {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+  margin: 24px;
+}
+
+/* Form title */
+.code-form-title {
+  color: #003366;
+  margin-bottom: 1rem;
+}
+
+/* Group spacing */
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+/* Input, select, textarea styles */
+.form-control {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Focus state */
+.form-control:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 4px rgba(0, 51, 102, 0.4);
+}
+
+/* Submit button */
+.btn-primary {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background: #004080;
+  transform: scale(1.03);
+}
+
+/* For layout: make sure the parent container allows side-by-side display */
+.form-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.left-table {
+  flex: 2;
 }
