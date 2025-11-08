@@ -17,12 +17,10 @@
 
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD:src/routes/careTrackerConfig.js
 const careTrackerConfigController = require('../controllers/careTrackerConfigController');
 
 // Define routes
 router.get('/', careTrackerConfigController.showConfigPage);
-=======
 const controller = require('../controllers/careTrackerConfigController');
 
 // Display table + form
@@ -30,6 +28,5 @@ router.get('/', controller.showConfigPage);
 
 // Handle form submission
 router.post('/add_config', controller.addConfig);
->>>>>>> cd3107cc711cd194a984c87fbdea142d9a62029f:src/routes/careTrackerConfigRoutes.js
 
 module.exports = router;
