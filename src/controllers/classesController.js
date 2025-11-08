@@ -1,30 +1,9 @@
-let allClasses = [
-  {
-    id: 'CS271',
-    name: 'Data Structures',
-    students: ['Alice Johnson', 'Bob Williams', 'Charlie Brown'],
-  },
-  {
-    id: 'CS346',
-    name: 'Web Development',
-    students: ['David Lee', 'Eve Martinez', 'Frank White'],
-  },
-  {
-    id: 'CS344',
-    name: 'Mobile Development',
-    students: ['Grace Hall', 'Henry King', 'Ivy Miller'],
-  },
-];
+const classesModel = require('../models/classesModel');
+const studentsModel = require('../models/studentsModel');
 
-// Import models if needed
-// const SomeModel = require('../models/SomeModel');
-
-/**
- * GET /about
- * Display the about page
- */
 exports.getClasses = async (req, res, next) => {
   try {
+    const allClasses = await classesModel.getAll();
     res.render('classes', {
       title: 'Classes',
       courses: allClasses,
@@ -38,7 +17,8 @@ exports.getClasses = async (req, res, next) => {
 exports.getClassById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
-    const course = allClasses.find((c) => c.id === courseId);
+    const course = await classesModel.getClassByClassId(courseId);
+    const students = await studentsModel.getStudentsByClassId(courseId);
 
     if (!course) {
       return res.status(404).render('error', {
@@ -48,10 +28,9 @@ exports.getClassById = async (req, res, next) => {
       });
     }
     res.render('classReport', {
-      title: `Report for ${course.id}: ${course.name}`,
-      class_name: `${course.id}: ${course.name}`,
+      title: `Report for ${course.classNumber}: ${course.className}`,
       course: course,
-      class_id: course.id,
+      students: students,
       //csrfToken: req.csrfToken(),
     });
   } catch (error) {
@@ -75,7 +54,7 @@ exports.addClass = (req, res) => {
     name: req.body.name.trim(),
   };
 
-  allClasses.push(newClass);
+  //allClasses.push(newClass);
 
   // Re-render or redirect
   res.redirect('/classes'); // will show the updated list

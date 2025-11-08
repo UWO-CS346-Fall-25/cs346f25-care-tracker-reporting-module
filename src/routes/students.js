@@ -24,9 +24,12 @@ const studentsController = require('../controllers/studentsController');
 // Define routes
 router.get('/', studentsController.getStudents);
 
-router.get('/studentReport/:name', studentsController.getStudentByName);
 router.get(
-  '/classStudentReport/:name/:class_id',
+  '/studentReport/:name/:user_id',
+  studentsController.getStudentByName
+);
+router.get(
+  '/classStudentReport/:name/:user_id/:class_id',
   studentsController.getClassStudentByName
 );
 router.get('/selfReport', studentsController.getSelfReport);

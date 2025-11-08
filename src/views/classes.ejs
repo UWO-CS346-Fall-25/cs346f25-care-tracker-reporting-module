@@ -42,16 +42,17 @@
           <table class="table_shared">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Semester</th>
+                <th>Number</th>
                 <th>Name</th>
               </tr>
             </thead>
             <tbody>
               <% if (courses && courses.length > 0) { %>
                 <% courses.forEach(course => { %>
-                  <tr>
-                    <td><a href="/classes/class_report/<%= course.id %>" class="course-report" style="font-weight: bold;"><%= course.id %></a></td>
-                    <td><a href="/classes/class_report/<%= course.id %>" class="course-report" style="font-weight: bold;"><%= course.name %></a></td>
+                  <tr><td><a href="/classes/class_report/<%= course.classroomId %>" class="course-report" style="font-weight: bold;"><%= course.semester %></a></td>
+                    <td><a href="/classes/class_report/<%= course.classroomId %>" class="course-report" style="font-weight: bold;"><%= course.classNumber %></a></td>
+                    <td><a href="/classes/class_report/<%= course.classroomId %>" class="course-report" style="font-weight: bold;"><%= course.className %></a></td>
                   </tr>
                 <% }); %>
               <% } else { %>
@@ -68,11 +69,11 @@
       <hr>
 
 
-    <form method="POST" action="/classes/add_class">
+    <!-- <form method="POST" action="/classes/add_class">
       <label>Course ID? <input type="text" name="id"></label>
       <label>Name? <input type="text" name="name"></label>
       <input type="submit" value="Add Course"><p>Placeholder data entry pending database connection.</p>
-    </form>
+    </form> -->
 
   </main>
 

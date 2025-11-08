@@ -49,7 +49,7 @@
               <% if (students && students.length > 0) { %>
                 <% students.forEach(student => { %>
                   <tr>
-                    <td><a href="/students/studentReport/<%= student.fullName %>" class="student-report" style="font-weight: bold;"><%= student.fullName %></a></td>
+                    <td><a href="/students/studentReport/<%= student.fullName %>/<%= student.userId  %>" class="student-report" style="font-weight: bold;"><%= student.fullName %></a></td>
                   </tr>
                 <% }); %>
               <% } else { %>
