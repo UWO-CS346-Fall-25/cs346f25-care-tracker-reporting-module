@@ -17,12 +17,10 @@
 
 const express = require('express');
 const router = express.Router();
-
-// Import controllers
 const careTrackerConfigController = require('../controllers/careTrackerConfigController');
 
 // Define routes
-router.get('/', careTrackerConfigController.getCareTrackerConfig);
+router.get('/', careTrackerConfigController.showConfigPage);
 
 router.post('/add_config', careTrackerConfigController.addConfig);
 

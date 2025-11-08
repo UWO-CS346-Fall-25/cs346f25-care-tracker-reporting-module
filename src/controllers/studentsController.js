@@ -1,17 +1,4 @@
-let allStudents = [
-  { id: 1, name: 'Lena Martinez' },
-  { id: 2, name: 'Caleb Nguyen' },
-  { id: 3, name: 'Ava Thompson' },
-  { id: 4, name: 'Alice Johnson' },
-  { id: 5, name: 'Bob Williams' },
-  { id: 6, name: 'Charlie Brown' },
-  { id: 7, name: 'David Lee' },
-  { id: 8, name: 'Eve Martinez' },
-  { id: 9, name: 'Frank White' },
-  { id: 10, name: 'Grace Hall' },
-  { id: 11, name: 'Henry King' },
-  { id: 12, name: 'Ivy Miller' },
-];
+const model = require('../models/studentsModel');
 
 const competencyData = [
   {
@@ -255,6 +242,7 @@ const competencyData = [
  */
 exports.getStudents = async (req, res, next) => {
   try {
+    const allStudents = await model.getAll();
     res.render('students', {
       title: 'Students',
       students: allStudents,
@@ -307,19 +295,3 @@ exports.getSelfReport = async (req, res, next) => {
   }
 };
 
-// POST /students/add
-exports.addStudent = (req, res) => {
-  const { name } = req.body;
-  if (!name || !name.trim()) {
-    return res.status(400).send('Name required');
-  }
-
-  const newStudent = {
-    id: allStudents.length > 0 ? allStudents[allStudents.length - 1].id + 1 : 1,
-    name: name.trim(),
-  };
-
-  allStudents.push(newStudent);
-  // Re-render or redirect
-  res.redirect('/students'); // will show the updated list
-};

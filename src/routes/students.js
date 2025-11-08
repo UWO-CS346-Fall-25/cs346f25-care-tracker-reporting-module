@@ -31,8 +31,6 @@ router.get(
 );
 router.get('/selfReport', studentsController.getSelfReport);
 
-router.post('/addStudent', studentsController.addStudent);
-
 // dummy comment
 
 module.exports = router;

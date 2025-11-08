@@ -76,22 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
       form.codeType.style.borderColor = 'red';
     }
 
-    if (codeGroup.length < 2) {
+    if (codeType == 'domain' && codeGroup.length < 2) {
       valid = false;
       messages.push('Code Group must be at least 2 characters.');
       form.codeGroup.style.borderColor = 'red';
     }
 
-    if (!/^[A-Za-z0-9_-]{2,10}$/.test(code)) {
+    if (code.length < 2) {
       valid = false;
-      messages.push('Code must be 2–10 characters (letters, numbers, _ or -).');
+      messages.push('Code must be at least 2 characters.');
       form.code.style.borderColor = 'red';
-    }
-
-    if (codeMeaning.length < 3) {
-      valid = false;
-      messages.push('Please provide a Code Meaning (min 3 characters).');
-      form.codeMeaning.style.borderColor = 'red';
     }
 
     // Show feedback
@@ -106,4 +100,24 @@ document.addEventListener('DOMContentLoaded', () => {
       alertBox.style.display = 'none';
     }
   });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const codeType = document.getElementById('codeType');
+  const groupWrap = document.getElementById('codeGroupWrap');
+  const codeGroup = document.getElementById('codeGroup');
+
+  if (!codeType || !groupWrap || !codeGroup) return; // safety
+
+  function updateCodeGroupVisibility() {
+    const show = codeType.value === 'domain';
+    groupWrap.classList.toggle('hidden', !show);
+    groupWrap.setAttribute('aria-hidden', String(!show));
+    // Make it required only when visible
+    if (show) codeGroup.setAttribute('required', 'required');
+    else codeGroup.removeAttribute('required');
+  }
+
+  updateCodeGroupVisibility(); // set initial state on page load
+  codeType.addEventListener('change', updateCodeGroupVisibility);
 });
