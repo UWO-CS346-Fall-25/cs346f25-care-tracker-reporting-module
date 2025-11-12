@@ -17,13 +17,16 @@
 
 const express = require('express');
 const router = express.Router();
-
-// Import controllers
 const careTrackerConfigController = require('../controllers/careTrackerConfigController');
 
 // Define routes
-router.get('/', careTrackerConfigController.getCareTrackerConfig);
+router.get('/', careTrackerConfigController.showConfigPage);
+const controller = require('../controllers/careTrackerConfigController');
 
-router.post('/add_config', careTrackerConfigController.addConfig);
+// Display table + form
+router.get('/', controller.showConfigPage);
+
+// Handle form submission
+router.post('/add_config', controller.addConfig);
 
 module.exports = router;

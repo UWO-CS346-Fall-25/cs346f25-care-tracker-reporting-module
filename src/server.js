@@ -7,6 +7,11 @@
  * - Handling server startup errors
  */
 
+//////////////// SSL workaround due to VPN side effects.
+require('dotenv').config();
+require('./bootstrap/tls-dev'); // <-- must come before supabaseClient is imported
+////////////////
+
 require('dotenv').config();
 const app = require('./app');
 

@@ -35,16 +35,16 @@
 
     <section class="report-details">
 
-      <h1>Report for <%= course.name %> (<%= course.id %>)</h1>
+      <h1>Report for <%= course.className %> (<%= course.semester %> <%= course.class_number %>)</h1>
 
-      <p class="lead"><%= course.description %></p>
+      <!-- <p class="lead"><%= course.description %></p> -->
 
       <div class="card p-4 mb-4">
           <h3>Course Details</h3>
       </div>
 
       <h2>Student Roster</h2>
-      <% if (course.students && course.students.length > 0) { %>
+      <% if (students && students.length > 0) { %>
         <div class="table-scroll">
           <table class="table_shared">
             <thead>
@@ -53,10 +53,10 @@
               </tr>
             </thead>
             <tbody>
-              <% if (course.students && course.students.length > 0) { %>
-                <% course.students.forEach(student => { %>
+              <% if (students && students.length > 0) { %>
+                <% students.forEach(student => { %>
                   <tr>
-                    <td><a href="/students/classStudentReport/<%= student %>/<%= class_id %>" class="student-report" style="font-weight: bold;"><%= student %></a></td>
+                    <td><a href="/students/classStudentReport/<%= student.fullName %>/<%= student.userId %>/<%= course.classroomId %>" class="student-report" style="font-weight: bold;"><%= student.fullName %></a></td>
                   </tr>
                 <% }); %>
               <% } else { %>

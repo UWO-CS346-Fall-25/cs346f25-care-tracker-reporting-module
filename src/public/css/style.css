@@ -521,3 +521,7 @@ footer {
 .left-table {
   flex: 2;
 }
+
+.hidden {
+  display: none;
+}

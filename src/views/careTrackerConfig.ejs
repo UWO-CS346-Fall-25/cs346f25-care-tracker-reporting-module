@@ -86,7 +86,7 @@
         </select>
       </div>
 
-      <div class="form-group">
+      <div  id="codeGroupWrap" class="field <%= (form && form.code_type === 'domain') ? '' : 'hidden' %>" aria-hidden="<%= (form && form.code_type === 'domain') ? 'false' : 'true' %>">
         <label for="codeGroup"><strong>Code Group</strong></label><br>
         <input type="text" id="codeGroup" name="codeGroup" required placeholder="e.g. Gender / Diagnosis" class="form-control">
       </div>
@@ -98,7 +98,7 @@
 
       <div class="form-group">
         <label for="codeMeaning"><strong>Code Meaning</strong></label><br>
-        <textarea id="codeMeaning" name="codeMeaning" rows="3" required placeholder="Description..." class="form-control"></textarea>
+        <textarea id="codeMeaning" name="codeMeaning" rows="3" placeholder="Description..." class="form-control"></textarea>
       </div>
 
       <button type="submit" class="btn-primary">Add Code</button>

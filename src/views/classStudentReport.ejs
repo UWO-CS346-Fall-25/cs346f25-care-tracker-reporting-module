@@ -35,7 +35,31 @@
 
     <section class="features">
       <h1>Student Report</h1>
-      <p><%= student_name %></p>
+
+      <% if (progressData) {
+          const total = Math.max(1, Number(progressData.total || 0)); // avoid /0
+          const completed = Number(progressData.completed || 0);
+          const pct = Math.round((completed / total) * 100);
+      %>
+        <section class="progress-widget" aria-labelledby="progress-title">
+          <h3 id="progress-title" class="progress-title"><%= progressData.fullName %></h3>
+
+          <div class="progress-meta">
+            <span class="progress-label"><%= progressData.progressLabel %> competencies demonstrated.</span>
+          </div>
+
+          <progress
+            class="progress-bar"
+            max="<%= total %>"
+            value="<%= completed %>"
+            aria-valuemin="0"
+            aria-valuemax="<%= total %>"
+            aria-valuenow="<%= completed %>"
+            aria-label="<%= progressData.progressLabel %>">
+              <%= pct %>%   <!-- fallback text for very old browsers -->
+          </progress>
+        </section>
+      <% } %>
         <% let counter = 1; %>
         <% competencies.forEach(domain => { %>
           <div class="domain">
