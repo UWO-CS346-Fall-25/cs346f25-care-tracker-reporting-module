@@ -1,3 +1,7 @@
+/**
+ * Controller: Handles HTTP request/response flow for this feature.
+ */
+
 const classesModel = require('../models/classesModel');
 const studentsModel = require('../models/studentsModel');
 

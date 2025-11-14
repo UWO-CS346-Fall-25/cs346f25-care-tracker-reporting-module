@@ -1,3 +1,7 @@
+/**
+ * Model: Provides data-access logic and interaction with the database or external services.
+ */
+
 const supabase = require('./supabase');
 
 class ClassesModel {

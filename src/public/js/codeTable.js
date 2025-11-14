@@ -1,3 +1,7 @@
+/**
+ * Module: Provides logic for this feature.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   const table = document.getElementById('codeTable');
   if (!table) return; // safety

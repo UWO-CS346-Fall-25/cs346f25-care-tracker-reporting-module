@@ -1,3 +1,7 @@
+/**
+ * Controller: Handles HTTP request/response flow for this feature.
+ */
+
 const model = require('../models/studentsModel');
 
 const competencyData = [

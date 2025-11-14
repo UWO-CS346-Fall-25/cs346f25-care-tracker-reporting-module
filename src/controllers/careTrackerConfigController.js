@@ -1,3 +1,7 @@
+/**
+ * Controller: Handles HTTP request/response flow for this feature.
+ */
+
 const CareTrackerConfig = require('../models/careTrackerConfigModel');
 
 exports.showConfigPage = async (req, res) => {

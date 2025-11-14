@@ -1,3 +1,7 @@
+/**
+ * Module: Provides logic for this feature.
+ */
+
 const supabase = require('./supabase');
 
 class CareTrackerConfig {
