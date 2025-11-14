@@ -1,3 +1,10 @@
+<!--
+  View: ClassStudentReport
+  Used by: GET /classStudentReport/:name/:user_id/:class_id via studentsController.getClassStudentByName.
+  Expects template locals: //csrfToken, class_id, competencies, progressData, student_name, title.
+  Primary data variables used in this template: class_id, completed, counter, csrfToken, domain, item, pct, progressData, title, total.
+-->
+
 /**
  * Shows per‑student breakdown inside a class report.
  */
@@ -7,6 +14,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Uses the dynamic page title set by the controller. -->
   <title><%= title %> - CS346 Project</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -18,6 +26,7 @@
         <ul class="nav-links">
           <li><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
+<!-- Conditional block: Show user-specific section only when a user is logged in. (condition: `user`). -->
           <% if (user) { %>
             <li><a href="/profile">Profile</a></li>
             <li>
@@ -40,6 +49,7 @@
     <section class="features">
       <h1>Student Report</h1>
 
+<!-- Conditional block: Show this section only when the condition is true. (condition: `progressData`). -->
       <% if (progressData) {
           const total = Math.max(1, Number(progressData.total || 0)); // avoid /0
           const completed = Number(progressData.completed || 0);
