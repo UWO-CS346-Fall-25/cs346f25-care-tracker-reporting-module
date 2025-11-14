@@ -18,6 +18,10 @@
  * GET /
  * Display the home page
  */
+/**
+ * Renders the 'index' view, providing template locals: title, // data, //csrfToken.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getHome = async (req, res, next) => {
   try {
     // Fetch any data needed for the home page
@@ -36,6 +40,10 @@ exports.getHome = async (req, res, next) => {
 /**
  * GET /about
  * Display the about page
+ */
+/**
+ * Renders the 'about' view, providing template locals: title, //csrfToken.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
  */
 exports.getAbout = async (req, res, next) => {
   try {

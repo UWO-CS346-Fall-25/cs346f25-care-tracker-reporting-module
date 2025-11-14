@@ -244,6 +244,12 @@ const competencyData = [
  * GET /about
  * Display the about page
  */
+/**
+ * Handles GET /.
+ * Uses model model(s) to access persistent data.
+ * Renders the 'students' view, providing template locals: title, students, //csrfToken.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getStudents = async (req, res, next) => {
   try {
     const allStudents = await model.getAll();
@@ -257,6 +263,12 @@ exports.getStudents = async (req, res, next) => {
   }
 };
 
+/**
+ * Handles GET /studentReport/:name/:user_id.
+ * Renders the 'studentReport' view, providing template locals: title, student_name, competencies, progressData, //csrfToken.
+ * Reads route parameters from req.params to identify the resource being operated on.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getStudentByName = async (req, res, next) => {
   try {
     const userId = req.params.user_id;
@@ -274,6 +286,12 @@ exports.getStudentByName = async (req, res, next) => {
     next(error);
   }
 };
+/**
+ * Handles GET /classStudentReport/:name/:user_id/:class_id.
+ * Renders the 'classStudentReport' view, providing template locals: title, student_name, competencies, progressData, class_id, //csrfToken.
+ * Reads route parameters from req.params to identify the resource being operated on.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getClassStudentByName = async (req, res, next) => {
   try {
     const userId = req.params.user_id;
@@ -293,6 +311,12 @@ exports.getClassStudentByName = async (req, res, next) => {
     next(error);
   }
 };
+/**
+ * Handles GET /selfReport.
+ * Renders the 'selfReport' view, providing template locals: title, student_name, competencies, progressData, //csrfToken.
+ * Reads route parameters from req.params to identify the resource being operated on.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getSelfReport = async (req, res, next) => {
   try {
     const userId = '13652b4f-6f6a-41cc-a00c-22995b412870';

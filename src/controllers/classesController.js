@@ -5,6 +5,12 @@
 const classesModel = require('../models/classesModel');
 const studentsModel = require('../models/studentsModel');
 
+/**
+ * Handles GET /.
+ * Uses classesModel model(s) to access persistent data.
+ * Renders the 'classes' view, providing template locals: title, courses, //csrfToken.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getClasses = async (req, res, next) => {
   try {
     const allClasses = await classesModel.getAll();
@@ -18,6 +24,12 @@ exports.getClasses = async (req, res, next) => {
   }
 };
 
+/**
+ * Handles GET /class_report/:id.
+ * Renders the 'classReport' view, providing template locals: title.
+ * Reads route parameters from req.params to identify the resource being operated on.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.getClassById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
@@ -62,4 +74,5 @@ exports.addClass = (req, res) => {
 
   // Re-render or redirect
   res.redirect('/classes'); // will show the updated list
+};
 };

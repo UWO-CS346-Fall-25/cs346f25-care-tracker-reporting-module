@@ -4,6 +4,11 @@
 
 const CareTrackerConfig = require('../models/careTrackerConfigModel');
 
+/**
+ * Handles GET /, and GET /.
+ * Uses CareTrackerConfig model(s) to access persistent data.
+ * Renders the 'careTrackerConfig' view, providing template locals: title, user, csrfToken, form.
+ */
 exports.showConfigPage = async (req, res) => {
   try {
     const codes = await CareTrackerConfig.getAll();
@@ -25,6 +30,12 @@ exports.showConfigPage = async (req, res) => {
   }
 };
 
+/**
+ * Handles POST /add_config.
+ * Uses CareTrackerConfig model(s) to access persistent data.
+ * Redirects the client to '/caretrackerconfig' after successful completion.
+ * Reads user-submitted form data from req.body and maps fields into a payload object.
+ */
 exports.addConfig = async (req, res) => {
   try {
     const newCodeData = {

@@ -20,6 +20,9 @@ class User {
    * Find all users
    * @returns {Promise<Array>} Array of users
    */
+/**
+ * Model helper method 'findAll' encapsulating a reusable database operation.
+ */
   static async findAll() {
     const query =
       'SELECT id, username, email, created_at FROM users ORDER BY created_at DESC';
@@ -32,6 +35,9 @@ class User {
    * @param {number} id - User ID
    * @returns {Promise<object|null>} User object or null
    */
+/**
+ * Looks up a single row by its primary key identifier.
+ */
   static async findById(id) {
     const query =
       'SELECT id, username, email, created_at FROM users WHERE id = $1';
@@ -44,6 +50,9 @@ class User {
    * @param {string} email - User email
    * @returns {Promise<object|null>} User object or null
    */
+/**
+ * Model helper method 'findByEmail' encapsulating a reusable database operation.
+ */
   static async findByEmail(email) {
     const query = 'SELECT * FROM users WHERE email = $1';
     const result = await db.query(query, [email]);
@@ -55,6 +64,9 @@ class User {
    * @param {object} userData - User data { username, email, password }
    * @returns {Promise<object>} Created user object
    */
+/**
+ * Inserts a new row based on the provided payload object and returns the created record.
+ */
   static async create(userData) {
     const { username, email, password } = userData;
     const query = `
@@ -72,6 +84,9 @@ class User {
    * @param {object} userData - User data to update
    * @returns {Promise<object>} Updated user object
    */
+/**
+ * Updates an existing row identified by its ID using the provided changes.
+ */
   static async update(id, userData) {
     const { username, email } = userData;
     const query = `
@@ -89,6 +104,9 @@ class User {
    * @param {number} id - User ID
    * @returns {Promise<boolean>} True if deleted, false otherwise
    */
+/**
+ * Removes a row from the table given its primary key.
+ */
   static async delete(id) {
     const query = 'DELETE FROM users WHERE id = $1';
     const result = await db.query(query, [id]);

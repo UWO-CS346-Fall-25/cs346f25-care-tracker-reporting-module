@@ -26,6 +26,12 @@ exports.getRegister = (req, res) => {
  * POST /users/register
  * Process registration form
  */
+/**
+ * Uses User model(s) to access persistent data.
+ * Redirects the client to '/' after successful completion.
+ * Reads user-submitted form data from req.body and maps fields into a payload object.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ */
 exports.postRegister = async (req, res, next) => {
   try {
     // const { username, email, password } = req.body;
@@ -59,6 +65,11 @@ exports.getLogin = (req, res) => {
 /**
  * POST /users/login
  * Process login form
+ */
+ * Renders the 'users/login' view, providing template locals: //     title, //     error, //     csrfToken.
+ * Redirects the client to '/' after successful completion.
+ * Reads user-submitted form data from req.body and maps fields into a payload object.
+ * Delegates unexpected errors to the Express error-handling middleware via next(err).
  */
 exports.postLogin = async (req, res, next) => {
   try {

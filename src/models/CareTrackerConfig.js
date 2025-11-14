@@ -5,6 +5,9 @@
 const supabase = require('./supabase');
 
 class CareTrackerConfig {
+/**
+ * Returns all rows from the underlying table, typically used to populate lists or dropdowns.
+ */
   static async getAll() {
     const { data, error } = await supabase
       .from('dropdown_codes')
@@ -27,6 +30,9 @@ class CareTrackerConfig {
     // --- END DATA MAPPING ---
   }
 
+/**
+ * Inserts a new row based on the provided payload object and returns the created record.
+ */
   static async create(config) {
     const { data, error } = await supabase
       .from('dropdown_codes')
