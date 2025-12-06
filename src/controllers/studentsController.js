@@ -5,16 +5,14 @@
 const model = require('../models/studentsModel');
 
 /**
- * GET /about
- * Display the about page
- */
-/**
- * Handles GET /.
- * Uses model model(s) to access persistent data.
- * Renders the 'students' view, providing template locals: title, students, //csrfToken.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: studentsController
+ * Purpose: renders students
+ * Output: Redirects to /students or shows an error page
  */
 exports.getStudents = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect('/users/login');
+  }
   try {
     const allStudents = await model.getAll();
     res.render('students', {
@@ -28,12 +26,16 @@ exports.getStudents = async (req, res, next) => {
 };
 
 /**
- * Handles GET /studentReport/:name/:user_id.
- * Renders the 'studentReport' view, providing template locals: title, student_name, competencies, progressData, //csrfToken.
- * Reads route parameters from req.params to identify the resource being operated on.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: studentsController
+ * Purpose: renders studentReport
+ * Input: req.params.user_id (uuid)
+ *        req.params.req.params.name (string)
+ * Output: Redirects to /students/studentReport/:name/:user_id or shows an error page
  */
 exports.getStudentReportByUserID = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect('/users/login');
+  }
   try {
     const userId = req.params.user_id;
     const competencyData = await model.getDomainReportByUserId(userId);
@@ -52,13 +54,19 @@ exports.getStudentReportByUserID = async (req, res, next) => {
     next(error);
   }
 };
+
 /**
- * Handles GET /classStudentReport/:name/:user_id/:class_id.
- * Renders the 'classStudentReport' view, providing template locals: title, student_name, competencies, progressData, class_id, //csrfToken.
- * Reads route parameters from req.params to identify the resource being operated on.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: studentsController
+ * Purpose: renders studentReport
+ * Input: req.params.user_id (uuid)
+ *        req.params.class_id (uuid)
+ *        req.params.req.params.name (string)
+ * Output: Redirects to /students/classStudentReport/:name/:user_id/:class_id or shows an error page
  */
 exports.getClassStudentByUserId = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect('/users/login');
+  }
   try {
     const userId = req.params.user_id;
     const competencyData = await model.getDomainReportByUserId(userId);
@@ -77,13 +85,16 @@ exports.getClassStudentByUserId = async (req, res, next) => {
     next(error);
   }
 };
+
 /**
- * Handles GET /selfReport.
- * Renders the 'selfReport' view, providing template locals: title, student_name, competencies, progressData, //csrfToken.
- * Reads route parameters from req.params to identify the resource being operated on.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: studentsController
+ * Purpose: renders studentReport
+ * Output: Redirects to /students/selfReport or shows an error page
  */
 exports.getSelfReport = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect('/users/login');
+  }
   try {
     const userId = req.session.user.userId;
     const competencyData = await model.getDomainReportByUserId(userId);
@@ -94,7 +105,6 @@ exports.getSelfReport = async (req, res, next) => {
       student_name: studentName,
       competencies: competencyData,
       progressData: progressData,
-      //csrfToken: req.csrfToken(),
     });
   } catch (error) {
     next(error);

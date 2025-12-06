@@ -8,12 +8,14 @@
  * - Routes
  * - Error handling
  */
-
+const { logError } = require('./models/loggingModel');
+const area = 'app.js';
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
 const session = require('express-session');
 const csrf = require('csurf');
+const { renderLogger } = require('./middleware/renderLogger');
 
 // Initialize Express app
 const app = express();
@@ -31,6 +33,8 @@ app.use(
     },
   })
 );
+
+app.use(renderLogger());
 
 // View engine setup - EJS
 app.set('view engine', 'ejs');
@@ -122,6 +126,11 @@ app.use((err, req, res, _next) => {
   // Set locals, only providing error details in development
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV === 'development' ? err : {};
+
+  logError('Sever Error', err, area, {
+    user: req.session?.user || null,
+    ip: req.ip,
+  });
 
   // Render error page
   res.status(err.status || 500);

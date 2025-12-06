@@ -1,10 +1,7 @@
 /**
- * GET /
- * Display the home page
- */
-/**
- * Renders the 'index' view, providing template locals: title, // data, //csrfToken.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: indexController
+ * Purpose: renders index
+ * Output: Redirects to /index or shows an error page
  */
 exports.getHome = async (req, res, next) => {
   try {
@@ -27,26 +24,3 @@ exports.getHome = async (req, res, next) => {
     next(error);
   }
 };
-
-/**
- * GET /about
- * Display the about page
- */
-/**
- * Renders the 'about' view, providing template locals: title, //csrfToken.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
- */
-exports.getAbout = async (req, res, next) => {
-  try {
-    res.render('about', {
-      title: 'About',
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-
-
-// Add more controller methods as needed

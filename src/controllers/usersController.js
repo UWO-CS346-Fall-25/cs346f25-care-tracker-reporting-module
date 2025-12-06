@@ -5,6 +5,8 @@
  * Uses sessions to remember the logged-in user between requests.
  */
 
+const { logEvent, logError } = require('../models/loggingModel');
+const area = 'usersController.js';
 const supabase = require('../models/supabase'); // same client used by your models
 const usersModel = require('../models/usersModel');
 
@@ -22,8 +24,9 @@ function mapRoleLabel(roleLevel) {
 }
 
 /**
- * GET /users/login
- * Render the login page.
+ * Controller: usersController
+ * Purpose: render login
+ * Output: Redirects to /users/login or shows an error page
  */
 exports.getLogin = (req, res) => {
   // If already logged in, just go home (optional behavior)
@@ -41,8 +44,9 @@ exports.getLogin = (req, res) => {
 };
 
 /**
- * GET /users/login
- * Render the login page.
+ * Controller: usersController
+ * Purpose: render register
+ * Output: Redirects to /users/register or shows an error page
  */
 exports.getRegister = (req, res) => {
   // If already logged in, just go home (optional behavior)
@@ -60,11 +64,18 @@ exports.getRegister = (req, res) => {
 };
 
 /**
- * POST /users/login
- * Authenticate against Supabase and persist in session.
+ * Controller: usersController
+ * Purpose: post login
+ * Input: req.body { email, password }
+ * Output: Redirects to / or shows an error page
  */
 exports.postLogin = async (req, res, next) => {
   const { email, password } = req.body;
+
+  logEvent('User Login', 'Login started', area, {
+    ip: req.ip,
+    email: email,
+  });
 
   try {
     // Call Supabase Auth: email/password
@@ -74,6 +85,12 @@ exports.postLogin = async (req, res, next) => {
     });
 
     if (error || !data || !data.session || !data.user) {
+      if (error) logError('User Login', error, area, { email: email });
+      else
+        logError('User Login', 'Invalid email or password.', area, {
+          email: email,
+          ip: req.ip,
+        });
       ///Something has gone wrong with our sign-in.
       return res.status(401).render('login', {
         title: 'Login',
@@ -85,16 +102,27 @@ exports.postLogin = async (req, res, next) => {
     }
 
     const userId = data.user.id;
-    const careData = await usersModel.getUserByUserId(userId);
+    const careData = await usersModel.getUserByUserId(userId); //If we have successfully logged into Supabase get our care_user data.
 
     if (error || !data || !careData || !data.session || !data.user) {
+      if (error) logError('User Login', error, area, { email: email });
+      else
+        logError(
+          'User Login',
+          'Invalid account State.  Supabase Account found, but no care_user.',
+          area,
+          {
+            email: email,
+            ip: req.ip,
+          }
+        );
       ///We have a supabase account but not a care_user row?
       return res.status(401).render('login', {
         title: 'Login',
         csrfToken: req.csrfToken ? req.csrfToken() : '',
         user: null,
         email,
-        error: 'Invalid email or password.',
+        error: 'Invalid account State.  Contact support.',
       });
     }
 
@@ -114,6 +142,12 @@ exports.postLogin = async (req, res, next) => {
       refreshToken: data.session.refresh_token,
     };
 
+    logEvent('User Login', 'Login success', area, {
+      email: email,
+      ip: req.ip,
+      userid: data.user.id,
+    });
+
     res.redirect('/');
   } catch (err) {
     next(err);
@@ -121,8 +155,10 @@ exports.postLogin = async (req, res, next) => {
 };
 
 /**
- * POST /users/register
- * Create a new Supabase user, set role via joinCode, and persist in session.
+ * Controller: usersController
+ * Purpose: Create a new Supabase user, set role via joinCode
+ * Input: req.body { email, password, firstName, lastName, joinCode }
+ * Output: Redirects to / or shows an error page
  */
 exports.postRegister = async (req, res, next) => {
   const { email, password, firstName, lastName, joinCode } = req.body;
@@ -136,6 +172,7 @@ exports.postRegister = async (req, res, next) => {
     if (!lastName) missingFields.push('Last name');
     if (!joinCode) missingFields.push('Join code');
 
+    // feedback on missing fields
     if (missingFields.length > 0) {
       return res.status(400).render('register', {
         title: 'Register',
@@ -149,8 +186,118 @@ exports.postRegister = async (req, res, next) => {
       });
     }
 
+    // feedback if user is attempting a non-uwosh email.
+    if (!email.toLowerCase().endsWith('@uwosh.edu')) {
+      return res.status(400).render('register', {
+        title: 'Register',
+        csrfToken: req.csrfToken ? req.csrfToken() : '',
+        user: null,
+        email,
+        firstName,
+        lastName,
+        joinCode,
+        error: `Only @uwosh.edu email addresses are accepted at this time.`,
+      });
+    }
+
+    // test the join code for validity before we create a new supabase account.
+    if (joinCode && joinCode.trim() !== '') {
+      try {
+        logEvent('User Registration', 'Testing joinCode:', area, {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          id: req.ip,
+          joinCode: joinCode.trim(),
+        });
+        const { data: rpcResult, error: rpcError } = await supabase.rpc(
+          //call the function to test the code.
+          'is_join_code_available',
+          { p_code: joinCode.trim() }
+        );
+
+        if (rpcError) {
+          //error?
+          logError(
+            'User Registration',
+            'Error testing joinCode:' + rpcError,
+            area,
+            {
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              id: req.ip,
+              joinCode: joinCode.trim(),
+            }
+          );
+          return res.status(400).render('register', {
+            title: 'Register',
+            csrfToken: req.csrfToken ? req.csrfToken() : '',
+            user: null,
+            email,
+            firstName,
+            lastName,
+            joinCode,
+            error:
+              error?.message ||
+              'Unable to register. Please try again or contact support.',
+          });
+        } else {
+          //no error
+          if (rpcResult == true) {
+            //the db function returns true if the code is available for use... invalid in this situation.
+            return res.status(400).render('register', {
+              title: 'Register',
+              csrfToken: req.csrfToken ? req.csrfToken() : '',
+              user: null,
+              email,
+              firstName,
+              lastName,
+              joinCode,
+              error: `Invalid Join Code.  Contact your instructor.`,
+            });
+          }
+        }
+      } catch (rpcErr) {
+        logError(
+          'User Registration',
+          'Error testing joinCode:' + rpcErr,
+          area,
+          {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            id: req.ip,
+            joinCode: joinCode.trim(),
+          }
+        );
+        return res.status(400).render('register', {
+          title: 'Register',
+          csrfToken: req.csrfToken ? req.csrfToken() : '',
+          user: null,
+          email,
+          firstName,
+          lastName,
+          joinCode,
+          error:
+            error?.message ||
+            'Unable to register. Please try again or contact support.',
+        });
+      }
+    }
+
+    ///We have validated we have all fields and the join code is valid.
+    ///Start the actual registration.
+
+    logEvent('User Registration', 'Registration started', area, {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    });
+
     // --- Create user in Supabase Auth ---
     const { data, error } = await supabase.auth.signUp({
+      //send to Supabase.
       email,
       password,
       options: {
@@ -163,6 +310,25 @@ exports.postRegister = async (req, res, next) => {
     });
 
     if (error || !data || !data.user) {
+      if (error)
+        logError('User Registration', error, area, {
+          email: email,
+          ip: req.ip,
+          firstName: firstName,
+          lastName: lastName,
+        });
+      else
+        logError(
+          'User Registration',
+          'Registration failed, no error returned.',
+          area,
+          {
+            email: email,
+            ip: req.ip,
+            firstName: firstName,
+            lastName: lastName,
+          }
+        );
       return res.status(400).render('register', {
         title: 'Register',
         csrfToken: req.csrfToken ? req.csrfToken() : '',
@@ -171,38 +337,83 @@ exports.postRegister = async (req, res, next) => {
         firstName,
         lastName,
         joinCode,
-        error: error?.message || 'Unable to register. Please try again.',
+        error:
+          error?.message ||
+          'Unable to register. Please try again or contact support.',
       });
     }
 
+    //Creating a supabase account creates a care_user row via trigger.  Get that user now.
     const userId = data.user.id;
     const careUser = await usersModel.getUserByUserId(userId);
 
     if (error || !careUser) {
       ///We have a supabase account but not a care_user row?
+      if (error)
+        logError('User Registration', error, area, {
+          email: email,
+          ip: req.ip,
+          firstName: firstName,
+          lastName: lastName,
+        });
+      else
+        logError(
+          'User Registration',
+          'Supabase registered, but failed to return care_user.',
+          area,
+          {
+            email: email,
+            ip: req.ip,
+            firstName: firstName,
+            lastName: lastName,
+          }
+        );
       return res.status(401).render('login', {
         title: 'Login',
         csrfToken: req.csrfToken ? req.csrfToken() : '',
         user: null,
         email,
-        error: 'Something went wrong.',
+        error: 'Something went wrong.  Contact support.',
       });
     }
 
     if (joinCode && joinCode.trim() !== '') {
       try {
         const { data: rpcResult, error: rpcError } = await supabase.rpc(
+          //attempt to map our user to the class and role matching the join code.
           'set_role_from_join_code',
-          { joincode: joinCode.trim() } // param name is lowercase in JS
+          { joincode: joinCode.trim() }
         );
 
         if (rpcError) {
-          console.error('Error calling set_role_from_join_code:', rpcError);
+          logError(
+            'User Registration',
+            'Account Created, join code failed:' + rpcError,
+            area,
+            {
+              email: email,
+              ip: req.ip,
+              firstName: firstName,
+              lastName: lastName,
+              joinCode: joinCode.trim(),
+            }
+          );
         } else {
-          careUser.roleLevel = rpcResult; // 0, 1, or null
+          careUser.roleLevel = rpcResult; // We mapped successfully.  Assign the returned roleLevel.
         }
       } catch (rpcErr) {
-        console.error('RPC set_role_from_join_code failed:', rpcErr);
+        logError(
+          'User Registration',
+          'Account Created, join code failed:' + rpcErr,
+          area,
+          {
+            email: email,
+            ip: req.ip,
+            firstName: firstName,
+            lastName: lastName,
+            joinCode: joinCode.trim(),
+          }
+        );
       }
     }
 
@@ -216,13 +427,19 @@ exports.postRegister = async (req, res, next) => {
       roleLevel: careUser.roleLevel,
     };
 
-    // Optionally keep the access token if you want user-specific queries later
     req.session.supabase = {
       accessToken: data.session.access_token,
       refreshToken: data.session.refresh_token,
     };
 
-    // You can choose to redirect home or to a "welcome" page.
+    logEvent('User Registration', 'Registration Complete', area, {
+      email: email,
+      ip: req.ip,
+      firstName: firstName,
+      lastName: lastName,
+      userId: data.user.id,
+    });
+
     res.redirect('/');
   } catch (err) {
     next(err);
@@ -230,23 +447,27 @@ exports.postRegister = async (req, res, next) => {
 };
 
 /**
- * POST /users/logout
- * Clear session and log out.
+ * Controller: usersController
+ * Purpose: Clear current session and logout.
+ * Input: req.body { email, password, firstName, lastName, joinCode }
+ * Output: Redirects to / or shows an error page
  */
 exports.postLogout = (req, res, _next) => {
   if (!req.session) {
     return res.redirect('/');
   }
 
-  // Destroy session; Supabase will treat the token as expired on client side.
-  req.session.destroy(() => {
-    res.redirect('/');
-  });
+  supabase.auth.signOut();
+  req.session.destroy(() => {});
+  res.clearCookie('sb-access-token');
+  res.clearCookie('sb-refresh-token');
+  res.redirect('/');
 };
 
 /**
- * GET /profile
- * Show the logged-in user's profile.
+ * Controller: usersController
+ * Purpose: render profile
+ * Output: Redirects to /users/profile or /users/login if not logged in.
  */
 exports.getProfile = async (req, res, next) => {
   try {
@@ -304,8 +525,10 @@ exports.getProfile = async (req, res, next) => {
 };
 
 /**
- * POST /profile
- * Update first and last name for the logged-in user.
+ * Controller: usersController
+ * Purpose: render profile
+ * Input: req.body { firstName, lastName }
+ * Output: Redirects to /users/profile or /users/login if not logged in.
  */
 exports.postProfile = async (req, res, next) => {
   const { firstName, lastName } = req.body;
@@ -342,6 +565,12 @@ exports.postProfile = async (req, res, next) => {
       });
     }
 
+    logEvent('Profile Update', 'Update started', area, {
+      firstName: firstName,
+      lastName: lastName,
+      userId: req.session.user.userId,
+    });
+
     // Update care_users via your Supabase function wrapped in the model
     const updated = await usersModel.createUpdateCareUser(
       firstName.trim(),
@@ -368,6 +597,12 @@ exports.postProfile = async (req, res, next) => {
       roleLabel,
     };
 
+    logEvent('Profile Update', 'Update successful', area, {
+      firstName: firstName,
+      lastName: lastName,
+      userId: req.session.user.userId,
+    });
+
     res.render('profile', {
       title: 'My Profile',
       csrfToken: req.csrfToken ? req.csrfToken() : '',
@@ -377,6 +612,11 @@ exports.postProfile = async (req, res, next) => {
       success: 'Profile updated successfully.',
     });
   } catch (err) {
+    logError('Profile Update', err, area, {
+      firstName: firstName,
+      lastName: lastName,
+      userId: req.session.user.userId,
+    });
     next(err);
   }
 };

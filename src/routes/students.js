@@ -23,6 +23,5 @@ router.get(
 // Uses route params (req.params) to drive controller logic.
 router.get('/selfReport', studentsController.getSelfReport);
 
-// dummy comment
 
 module.exports = router;

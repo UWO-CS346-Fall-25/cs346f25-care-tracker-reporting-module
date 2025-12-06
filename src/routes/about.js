@@ -10,6 +10,4 @@ const aboutController = require('../controllers/aboutController');
 // Relies on model(s): SomeModel for database access.
 router.get('/', aboutController.getAbout);
 
-// dummy comment
-
 module.exports = router;
