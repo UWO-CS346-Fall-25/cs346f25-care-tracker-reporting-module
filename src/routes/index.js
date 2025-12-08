@@ -10,6 +10,5 @@ const indexController = require('../controllers/indexController');
 // Relies on model(s): SomeModel for database access.
 router.get('/', indexController.getHome);
 
-// dummy comment
 
 module.exports = router;

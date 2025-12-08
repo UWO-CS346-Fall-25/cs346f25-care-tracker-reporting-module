@@ -6,18 +6,19 @@ const classesModel = require('../models/classesModel');
 const studentsModel = require('../models/studentsModel');
 
 /**
- * Handles GET /.
- * Uses classesModel model(s) to access persistent data.
- * Renders the 'classes' view, providing template locals: title, courses, //csrfToken.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: classesController
+ * Purpose: renders classes
+ * Output: Redirects to /classes or shows an error page
  */
 exports.getClasses = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect('/users/login');
+  }
   try {
     const allClasses = await classesModel.getAll();
     res.render('classes', {
       title: 'Classes',
       courses: allClasses,
-      //csrfToken: req.csrfToken(),
     });
   } catch (error) {
     next(error);
@@ -25,12 +26,15 @@ exports.getClasses = async (req, res, next) => {
 };
 
 /**
- * Handles GET /class_report/:id.
- * Renders the 'classReport' view, providing template locals: title.
- * Reads route parameters from req.params to identify the resource being operated on.
- * Delegates unexpected errors to the Express error-handling middleware via next(err).
+ * Controller: classesController
+ * Purpose: renders classReport
+ * Input: req.params.id (uuid)
+ * Output: Redirects to /classes/class_report/:id or shows an error page
  */
 exports.getClassById = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect('/users/login');
+  }
   try {
     const courseId = req.params.id;
     const course = await classesModel.getClassByClassId(courseId);
@@ -47,7 +51,6 @@ exports.getClassById = async (req, res, next) => {
       title: `Report for ${course.classNumber}: ${course.className}`,
       course: course,
       students: students,
-      //csrfToken: req.csrfToken(),
     });
   } catch (error) {
     next(error);
